@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ template "config-name" . }}
+data:
+    MEMORY: {{ .Values.jvm_mem }}
+    {{- if .Values.jvm_init_mem }}
+    INIT_MEMORY: {{ .Values.jvm_init_mem }}
+    {{- end }}
+    MAX_MEMORY: {{ .Values.jvm_max_mem }}
+{{- if .Values.config }}
+{{ toYaml .Values.config | indent 4 }}
+{{- end }}

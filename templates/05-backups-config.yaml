@@ -1,0 +1,8 @@
+{{- if .Values.backups.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ template "backups-config" . }}
+data:
+{{ toYaml .Values.backups.config | indent 4 }}
+{{- end }}

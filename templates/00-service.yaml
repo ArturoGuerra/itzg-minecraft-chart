@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ template "name" . }}
+{{- if .Values.annotations }}
+    annotations:
+{{ toYaml .Values.annotations | indent 8 }}
+{{- end }}
+spec:
+    ports:
+      {{ with .Values.ports }}
+      - name: {{ .mc.name }}
+        port: {{ .mc.port }}
+      - name: {{ .rcon.name }}
+        port: {{ .rcon.port }}
+      {{ end }}
+    selector:
+        app: {{ template "label" . }}

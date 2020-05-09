@@ -1,0 +1,19 @@
+{{- if and .Values.backups.enabled (not .Values.backups.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: {{ template "backups-pvc" . }}
+    annotations:
+        helm.sh/resource-policy: keep
+spec:
+    {{- with .Values.backups }}
+    {{- if .storageClass }}
+    storageClassName: {{ .storageClass }}
+    {{- end }}
+    accessModes:
+        - {{ .accessModes | quote }}
+    resources:
+        requests:
+            storage: {{ .storage | quote }}
+    {{- end }}
+{{- end }}

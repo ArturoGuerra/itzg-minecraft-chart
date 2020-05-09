@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: {{ template "name" . }}
+    labels:
+       app: {{ template "label" . }}
+spec:
+    selector:
+        matchLabels:
+            app: {{ template "label" . }}
+    replicas: 1
+    serviceName: {{ template "name" . }}
+    template:
+        metadata:
+            labels:
+                app: {{ template "label" . }}
+        spec:
+            containers:
+              - name: server
+                image: {{ .Values.image }}
+                ports:
+                  {{ with .Values.ports }}
+                  - name: {{ .mc.name }}
+                    containerPort: {{ .mc.port }}
+                  - name: {{ .rcon.name }}
+                    containerPort: {{ .rcon.port }}
+                  {{ end }}
+                envFrom:
+                  - configMapRef:
+                        name: {{ template "config-name" . }}
+                volumeMounts:
+                  - name: data
+                    mountPath: /data
+                resources:
+                  requests:
+                    memory: {{ .Values.mem }}
+                    cpu: {{ .Values.cpu }}
+                  limits:
+                    memory: {{ .Values.mem_limit }}
+                    cpu: {{ .Values.cpu_limit }}
+              {{- if .Values.backups.enabled }}
+              - name: backups
+                image: itzg/mc-backup
+                envFrom:
+                  - configMapRef:
+                      name: {{ template "backups-config" . }}
+                env:
+                  - name: SRC_DIR
+                    value: /data
+                  - name: DEST_DIR
+                    value: /backups
+                volumeMounts:
+                  - name: data
+                    mountPath: /data
+                    readOnly: true
+                  - name: backups
+                    mountPath: /backups
+              {{- end }}
+            volumes:
+              - name: data
+                persistentVolumeClaim:
+                    claimName: {{ template "data-pvc" . }}
+              {{- if .Values.backups.enabled }}
+              - name: backups
+                persistentVolumeClaim:
+                    claimName: {{ template "backups-pvc" . }}
+              {{- end }}

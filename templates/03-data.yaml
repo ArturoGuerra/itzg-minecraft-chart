@@ -1,0 +1,19 @@
+{{- if and .Values.data.enabled (not .Values.data.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: {{ template "data-pvc" . }}
+    annotations:
+        helm.sh/resource-policy: keep
+spec:
+    {{- with .Values.data }}
+    {{- if .storageClass }}
+    storageClassName: {{ .storageClass | quote }}
+    {{- end }}
+    accessModes:
+        - {{ .Values.data.accessMode | quote }}
+    resources:
+        requests:
+            storage: {{ .storage | quote }}
+    {{- end }}
+{{- end }}

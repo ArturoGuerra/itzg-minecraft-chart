@@ -1,0 +1,45 @@
+# Default values for rlcraft.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image: itzg/minecraft-server:latest
+
+jvm_mem: 500M
+jvm_max_mem: 1G
+
+mem: 500Mi
+mem_limit: 2G
+
+cpu: 500m
+cpu_limit: '1'
+ports:
+  mc:
+    name: minecraft
+    port: 25565
+  rcon:
+    name: rcon
+    port: 28016
+
+data:
+    enabled: true
+    storage: 8G
+    accessMode: ReadWriteOnce
+    # storageClass: "Class Name"
+
+backups:
+    enabled: false
+    storage: 50G
+    accessMode: ReadWriteMany
+    # storageClass: "Class Name"
+
+    config:
+        LINK_LATEST: "true"
+        BACKUP_METHOD: tar
+        INITIAL_DELAY: 2m
+        BACKUP_NAME: world
+        BACKUP_INTERVAL: "2h"
+        PRUNE_BACKUP_DAYS: "3"
+        RCON_HOST: "localhost"
+        RCON_PORT: "25575"
+        RCON_PASSWORD: "minecraft"
+        EXCLUDES: "*.jar,cache,logs"
