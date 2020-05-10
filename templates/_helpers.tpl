@@ -12,13 +12,13 @@
 {{- end -}}
 
 {{- define "data-pvc" -}}
-{{- default .Values.data.existingClaim .Release.Name -}}
+{{- default .Release.Name .Values.data.existingClaim -}}
 {{- end -}}
 
 {{- define "backups-config" -}}
-{{- default .Values.backups.name (printf "%s-backups" .Release.Name) }}
+{{- default (printf "%s-backups" .Release.Name) .Values.backups.name -}}
 {{- end -}}
 
 {{- define "backups-pvc" -}}
-{{- default .Values.backups.existingClaim (printf "%s-backups" .Release.Name) }}
+{{- default (printf "%s-backups" .Release.Name) .Values.backups.existingClaim -}}
 {{- end -}}
