@@ -11,7 +11,7 @@ spec:
     storageClassName: {{ .storageClass | quote }}
     {{- end }}
     accessModes:
-        - {{ .Values.data.accessMode | quote }}
+        - {{ .accessMode | quote }}
     resources:
         requests:
             storage: {{ .storage | quote }}
