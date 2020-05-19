@@ -3,27 +3,25 @@ kind: StatefulSet
 metadata:
     name: {{ template "name" . }}
     labels:
-       app: {{ template "label" . }}
+       app: {{ template "name" . }}
 spec:
     selector:
         matchLabels:
-            app: {{ template "label" . }}
+            app: {{ template "name" . }}
     replicas: 1
     serviceName: {{ template "name" . }}
     template:
         metadata:
             labels:
-                app: {{ template "label" . }}
+                app: {{ template "name" . }}
         spec:
             containers:
               - name: server
                 image: {{ .Values.image }}
                 ports:
-                  {{ with .Values.ports }}
-                  - name: {{ .mc.name }}
-                    containerPort: {{ .mc.port }}
-                  - name: {{ .rcon.name }}
-                    containerPort: {{ .rcon.port }}
+                  {{ range .Values.ports }}
+                  - name: {{ .name }}
+                    containerPort: {{ .targetPort }}
                   {{ end }}
                 envFrom:
                   - configMapRef:

@@ -8,11 +8,10 @@ metadata:
 {{- end }}
 spec:
     ports:
-      {{ with .Values.ports }}
-      - name: {{ .mc.name }}
-        port: {{ .mc.port }}
-      - name: {{ .rcon.name }}
-        port: {{ .rcon.port }}
+      {{ range .Values.ports }}
+      - name: {{ .name }}
+        port: {{ .port }}
+        targetPort: {{ .targetPort }}
       {{ end }}
     selector:
-        app: {{ template "label" . }}
+        app: {{ template "name" . }}

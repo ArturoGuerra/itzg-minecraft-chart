@@ -3,10 +3,6 @@
 {{- .Release.Name -}}
 {{- end -}}
 
-{{- define "label" -}}
-{{- .Release.Name -}}
-{{- end -}}
-
 {{- define "config-name" -}}
 {{- .Release.Name -}}
 {{- end -}}

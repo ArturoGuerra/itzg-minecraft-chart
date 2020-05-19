@@ -13,18 +13,23 @@ mem_limit: 2G
 cpu: 500m
 cpu_limit: '1'
 ports:
-  mc:
-    name: minecraft
+  - name: minecraft
     port: 25565
-  rcon:
-    name: rcon
+    targetPort: 25565
+  - name: rcon
     port: 28016
+    targetPort: 28016
 
 data:
     enabled: true
     storage: 8G
     accessMode: ReadWriteOnce
     # storageClass: "Class Name"
+
+config:
+    VIEW_DISTANCE: "3"
+    RCON_PORT: "28016"
+
 
 backups:
     enabled: false
@@ -37,9 +42,9 @@ backups:
         BACKUP_METHOD: tar
         INITIAL_DELAY: 2m
         BACKUP_NAME: world
-        BACKUP_INTERVAL: "2h"
-        PRUNE_BACKUP_DAYS: "3"
+        BACKUP_INTERVAL: "12h"
+        PRUNE_BACKUP_DAYS: "2"
         RCON_HOST: "localhost"
-        RCON_PORT: "25575"
+        RCON_PORT: "28016"
         RCON_PASSWORD: "minecraft"
         EXCLUDES: "*.jar,cache,logs"
