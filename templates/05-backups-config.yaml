@@ -4,5 +4,8 @@ kind: ConfigMap
 metadata:
     name: {{ template "backups-config" . }}
 data:
+    RCON_HOST: "localhost"
+    RCON_PORT: {{ .Values.rcon.port | quote }}
+    RCON_PASSWORD: {{ .Values.rcon.password | quote }}
 {{ toYaml .Values.backups.config | indent 4 }}
 {{- end }}

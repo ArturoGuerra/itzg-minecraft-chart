@@ -19,10 +19,14 @@ spec:
               - name: server
                 image: {{ .Values.image }}
                 ports:
-                  {{ range .Values.ports }}
+                  {{- range .Values.ports }}
                   - name: {{ .name }}
                     containerPort: {{ .targetPort }}
-                  {{ end }}
+                  {{- end }}
+                  {{- if or .Values.rcon.enabled .Values.backups.enabled }}
+                  - name: rcon
+                    containerPort: {{ .Values.rcon.port }}
+                  {{- end }}
                 envFrom:
                   - configMapRef:
                         name: {{ template "config-name" . }}

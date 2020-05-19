@@ -8,10 +8,15 @@ metadata:
 {{- end }}
 spec:
     ports:
-      {{ range .Values.ports }}
+      {{- range .Values.ports }}
       - name: {{ .name }}
         port: {{ .port }}
         targetPort: {{ .targetPort }}
-      {{ end }}
+      {{- end }}
+      {{- if .Values.rcon.enabled }}
+      - name: rcon
+        port: {{ .Values.rcon.port }}
+        targetPort: {{ .Values.rcon.port }}
+      {{- end }}
     selector:
         app: {{ template "name" . }}

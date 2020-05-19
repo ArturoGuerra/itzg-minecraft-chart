@@ -8,6 +8,11 @@ data:
     INIT_MEMORY: {{ .Values.jvm_init_mem }}
     {{- end }}
     MAX_MEMORY: {{ .Values.jvm_max_mem }}
+    {{- if or .Values.rcon.enabled .Values.backups.enabled }}
+    ENABLE_RCON: "true"
+    RCON_PORT: {{ .Values.rcon.port | quote }}
+    RCON_PASSWORD: {{ .Values.rcon.password | quote }}
+    {{- end }}
 {{- if .Values.config }}
 {{ toYaml .Values.config | indent 4 }}
 {{- end }}

@@ -16,9 +16,6 @@ ports:
   - name: minecraft
     port: 25565
     targetPort: 25565
-  - name: rcon
-    port: 28016
-    targetPort: 28016
 
 data:
     enabled: true
@@ -27,9 +24,12 @@ data:
     # storageClass: "Class Name"
 
 config:
-    VIEW_DISTANCE: "3"
-    RCON_PORT: "28016"
+    VIEW_DISTANCE: "5"
 
+rcon:
+  enabled: true
+  port: "28016"
+  password: "minecraft"
 
 backups:
     enabled: false
@@ -45,6 +45,4 @@ backups:
         BACKUP_INTERVAL: "12h"
         PRUNE_BACKUP_DAYS: "2"
         RCON_HOST: "localhost"
-        RCON_PORT: "28016"
-        RCON_PASSWORD: "minecraft"
         EXCLUDES: "*.jar,cache,logs"
