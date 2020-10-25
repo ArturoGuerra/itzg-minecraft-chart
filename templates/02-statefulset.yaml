@@ -8,13 +8,18 @@ spec:
     selector:
         matchLabels:
             app: {{ template "name" . }}
-    replicas: 1
+    replicas: {{ .Values.replicas }}
     serviceName: {{ template "name" . }}
     template:
         metadata:
             labels:
                 app: {{ template "name" . }}
         spec:
+            {{- if .Values.labels }}
+            nodeSelector:
+                {{- toYaml .Values.labels | nindent 16 }}
+            {{- end }}
+
             containers:
               - name: server
                 image: {{ .Values.image }}

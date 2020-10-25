@@ -2,6 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Do not modify this it will break it
+replicas: 1
+
 image: itzg/minecraft-server:latest
 
 jvm_mem: 500M
@@ -18,24 +21,30 @@ ports:
     targetPort: 25565
 
 data:
-    enabled: true
-    storage: 8G
+    storage: 8Gi
     accessMode: ReadWriteOnce
-    # storageClass: "Class Name"
+    storageClass: ""
+    existingClaim: ""
 
 config:
     VIEW_DISTANCE: "5"
+    # Any env config value from the https://github.com/itzg/docker-minecraft-server repo
 
 rcon:
   enabled: true
   port: "28016"
   password: "minecraft"
 
+labels: {}
+# nodeSelector labels
+
+
 backups:
     enabled: false
     storage: 50G
     accessMode: ReadWriteMany
-    # storageClass: "Class Name"
+    storageClass: ""
+    existingClaim: ""
 
     config:
         LINK_LATEST: "true"
